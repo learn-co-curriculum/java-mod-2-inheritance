@@ -160,15 +160,15 @@ the `Cat` object and the `Parrot` object can eat using the parent class' `eat()`
 method! The `Cat` and the `Parrot` objects can also use their own methods, like
 `useLitter()` and `startFlying()`.
 
-We can also that invoking the `Animal` class' constructor using the keyword
-`super` worked as well! When the `super()` method is called in the `Parrot`
-constructor, `Parrot()`, it initializes the `name` variable to "unknown" - like
-it does in the `Animal` class' constructor! So when we instantiate a new
-`Parrot` object and access its name, we print out that the name is "unknown".
+We can also see that using the `super()` method to invoke the `Animal`
+constructor worked well too! When the `super()` method is called in the `Parrot`
+constructor, it initializes the `name` variable to "unknown" - like it does in
+the `Animal` class' constructor! So when we instantiate a new `Parrot` object
+and access its name, we print out that the name is "unknown".
 
 ## Method Overriding
 
-Maybe we want to personalize how our `Cat` eats? But the `Animal` class already
+Maybe we want to personalize how our `Cat` eats. But the `Animal` class already
 defines an `eat()` method... so how can we customize it to fit the `Cat` a
 little better?
 
@@ -177,36 +177,20 @@ the parent class and the child class, the child class' method will override the
 parent class' method using the `@Override` annotation.
 
 ```java
-package com.flatiron.animal;
-
-public class Cat extends Animal {
-    private boolean isDeclawed;
-
-    public Cat() {
-        super();
-        this.isDeclawed = false;
-    }
-
-    public boolean getIsDeclawed() { return isDeclawed; }
-    public void setIsDeclawed(boolean isDeclawed) { this.isDeclawed = isDeclawed; }
-
-    public void useLitter() {
-        System.out.println("I just used the litter - I'm a clean cat!");
-    }
-
-    @Override
-    public void eat() {
-        super.eat();
-        System.out.println("I like to eat cat food!");
-    }
+// Here we are overriding the Animal::eat() method
+@Override
+public void eat() {
+    super.eat();
+    System.out.println("I like to eat cat food!");
 }
 ```
 
-Notice the `super` keyword is back! In this particular example, maybe we still
-want to print "Yum! I like to eat!" too; but we just want to add more context by
-also printing "I like to eat cat food!" as well. Although it is not required in
-Java to use the `super` keyword when overriding methods. We could simply just
-have the method look like this too:
+Notice the `super` keyword is back! In this particular example, we will still
+print "Yum! I like to eat!" along with printing "I like to eat cat food!" as
+well.
+
+We could also omit the `super` keyword if we don't want to reuse the method
+we are overriding.
 
 ```java
 @Override
