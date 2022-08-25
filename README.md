@@ -5,123 +5,289 @@
 - Explain inheritance
 - Use inheritance in Java
 
-## Introduction
+## What is Inheritance?
 
-A fundamental aspect of Object Oriented Programming is the ability for one class
-to inherit from another class. Let's take our initial understanding of what a
-class is as a grouping of "properties" and "actions", or said another way, let's
-consider that a class can "be things" and "do things". With that in mind, the
-extension of a class is all the things that its "base class" is and can do all
-the things that its base class can do.
+Another object-oriented programming pillar is **inheritance**, which is the
+ability for one class to inherit from another class. We can think of inheritance
+as a hierarchical classification where a class can inherit another class'
+features (attributes and methods). In this lesson, we will explore how to use
+inheritance in Java.
 
 ## Inheritance in Java
 
 Let's look at a very simple example - the `Animal` class is meant to model what
 an animal is and what an animal can do. In this simplified example, we will say
-that an Animal has a number of legs (that number could be 0) and can breath:
+that an Animal has a name and can eat:
 
 ```java
+package com.flatiron.animal;
+
 public class Animal {
-    public int numLegs;
+   private String name;
 
-    public void takeBreath() {
-        System.out.println("I took a breath");
-    }
+   Animal() {
+      this.name = "unknown";
+   }
+
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name; }
+
+   public void eat() {
+      System.out.println("Yum! I like to eat!");
+   }
 }
+
+
 ```
 
-If I wanted to create a class to model a Cat and a Parrot, I could start from
-scratch, or I could take advantage of the fact that cats and parrots are animals
-and therefore have all the properties of my `Animal` class and can do all the
-things that my `Animal` class can.
+If we wanted to create a class to model a Cat and a Parrot, we could start from
+scratch, or take advantage of the fact that cats and parrots are animals too.
+This means that they both have the same properties as the`Animal` class and can
+do all the things an `Animal` object can too.
 
-Not only that, I can then either add properties and behaviors to my `Cat` and
-`Parrot` classes to indicate in which way they may _be_ different or _behave_
-differently from my `Animal` class.
+Not only that, we can then either add properties and behaviors to the `Cat` and
+`Parrot` classes to indicate how they may _be_ different or _behave_
+differently from the `Animal` class.
 
-To extend a class, you define it like you would a normal class, but you follow
-the class definition directly with the `extend` keyword and you specify the name
-of the class you would like to inherit from. Let's look at our 2 new classes:
+So how can we have the `Cat` and `Parrot` class inherit from the `Animal`
+class? In Java, an inheritance relationship is like a parent-child relationship
+in which some of the parent's characteristics may extend to their child's
+characteristics. The keyword here is **extends** - just like a parent-child
+relationship in the real world, a child class `extends` the parent class. Let's
+look at our 2 new classes to see how this inheritance wil work with our example:
 
 ```java
+package com.flatiron.animal;
+
 public class Cat extends Animal {
-    public boolean isDeclawed;
+   private boolean isDeclawed;
 
-    public void useLitter() {
-        System.out.println("I just used the litter - I'm a clean cat!");
-    }
+   public Cat() {
+      super();
+      this.isDeclawed = false;
+   }
+
+   public boolean getIsDeclawed() { return isDeclawed; }
+   public void setIsDeclawed(boolean isDeclawed) { this.isDeclawed = isDeclawed; }
+
+   public void useLitter() {
+      System.out.println("I just used the litter - I'm a clean cat!");
+   }
 }
 ```
 
 ```java
+package com.flatiron.animal;
+
 public class Parrot extends Animal {
-    public int numWings;
-    private boolean inFlight = false;
+   private int numWings;
+   private boolean inFlight;
 
-    public void startFlying() {
-        System.out.println("I'm flying - weeee!!!");
-        inFlight = true;
-    }
+   public Parrot() {
+      super();
+      this.numWings = 2;
+      this.inFlight = false;
+   }
 
-    public void stopFlying() {
-        System.out.println("Coming down for a landing!");
-        inFlight = false;
-    }
+   public int getNumWings() { return numWings; }
+   public void setNumWings(int numWings) { this.numWings = numWings; }
+
+   public void startFlying() {
+      System.out.println("I'm flying - weeee!!!");
+      inFlight = true;
+   }
+
+   public void stopFlying() {
+      System.out.println("Coming down for a landing!");
+      inFlight = false;
+   }
 }
 ```
 
 We've introduced a few new terms, so let's examine them in the context of
-examples:
+the examples:
 
 1. A class can extend another class, using the keyword `extends` in the class
-   definition
-2. The class that extends is called the "subclass" or the "child class". In our
-   exammple, both `Cat` and `Parrot` are subclasses
-3. The class that is extended is called the "base class", the "superclass", or
-   the "parent class". In our example, `Animal` is the base class.
+   definition.
+2. The class that extends is called the **derived class**, the **subclass**, or
+   the **child class**. In our example, both `Cat` and `Parrot` are child
+   classes.
+3. The class that is extended is called the **base class**, the **superclass**,
+   or the **parent class**. In our example, `Animal` is the parent class.
+4. A child class can call its parent class' constructor by using the method
+   `super()`. This will initialize the `name` variable to "unknown" when used
+   in the `Cat` and `Parrot` class.
 
-The astute observers among you will have noticed that the `startFlying()` and
-the `stopFlying()` methods also adjust the value of a boolean variable in
-addition to displaying a message on the console. This is an example of "business
-logic":
+Another aside on the keyword **super** is that it can be used to invoke not
+only the constructor of a parent class, but also the variables and methods
+belonging to the parent class.
 
-- As we designed the `Parrot` class, we decided that it would be useful to track
-  whether the parrot is flying. For example, we may decide that the parrot
-  should tell us it's _not flying_ if we ask it to stop flying while it's not
-  flying. Our parrot is getting smart!
-- We have introduced the concept of a `private` variable for the `inFlight`
-  boolean. We will discuss this in more detail in another section, but `private`
-  variables allow us (the creators of the class) to track aspects of the class
-  without letting others (consumers of the class) be able to interfere with
-  those variables. With the `inFlight` variable, we want to be the only ones who
-  can change that status, through the "business logic" in our class, such as
-  when we "startFlying", for example.
-
-Let's add functionality (i.e. business logic) to our `Parrot` class that takes
-advantage of the `inFlight` private variable. We're going to make the parrot let
-us know when we've asked it to fly or land at the wrong time:
+Let's put all of these classes together to use in a `main()` method!
 
 ```java
-public class Parrot extends Animal {
-    public int numWings;
-    private boolean inFlight = false;
+package com.flatiron.animal;
 
-    public void startFlying() {
-        if (inFlight) {
-            System.out.println("I'm already flying!");
-        } else {
-            System.out.println("I'm flying - weeee!!!");
-            inFlight = true;
-        }
+public class Main {
+   public static void main(String[] args) {
+      Cat tom = new Cat();
+      tom.setName("Tom");
+      System.out.println("Hello! My name is " + tom.getName());
+      tom.eat();
+      tom.useLitter();
+
+      Parrot polly = new Parrot();
+      System.out.println("I'm a parrot and my name is " + polly.getName());
+      polly.eat();
+      polly.startFlying();
+   }
+}
+
+```
+
+The above will produce the following output:
+
+```plaintext
+Hello! My name is Tom
+Yum! I like to eat!
+I just used the litter - I'm a clean cat!
+I'm a parrot and my name is unknown
+Yum! I like to eat!
+I'm flying - weeee!!!
+```
+
+Notice in the above example when we put all our inherited classes together, both
+the `Cat` object and the `Parrot` object can eat using the parent class' `eat()`
+method! The `Cat` and the `Parrot` objects can also use their own methods, like
+`useLitter()` and `startFlying()`.
+
+We can also that invoking the `Animal` class' constructor using the keyword
+`super` worked as well! When the `super()` method is called in the `Parrot`
+constructor, `Parrot()`, it initializes the `name` variable to "unknown" - like
+it does in the `Animal` class' constructor! So when we instantiate a new
+`Parrot` object and access its name, we print out that the name is "unknown".
+
+## Method Overriding
+
+Maybe we want to personalize how our `Cat` eats? But the `Animal` class already
+defines an `eat()` method... so how can we customize it to fit the `Cat` a
+little better?
+
+The answer is called **method overriding**. If a method is defined in both
+the parent class and the child class, the child class' method will override the
+parent class' method using the `@Override` annotation.
+
+```java
+package com.flatiron.animal;
+
+public class Cat extends Animal {
+    private boolean isDeclawed;
+
+    public Cat() {
+        super();
+        this.isDeclawed = false;
     }
 
-    public void stopFlying() {
-        if (inFlight) {
-            System.out.println("Coming down for a landing!");
-            inFlight = false;
-        } else {
-            System.out.println("I can't stop flying when I'm not flying!");
-        }
+    public boolean getIsDeclawed() { return isDeclawed; }
+    public void setIsDeclawed(boolean isDeclawed) { this.isDeclawed = isDeclawed; }
+
+    public void useLitter() {
+        System.out.println("I just used the litter - I'm a clean cat!");
+    }
+
+    @Override
+    public void eat() {
+        super.eat();
+        System.out.println("I like to eat cat food!");
     }
 }
 ```
+
+Notice the `super` keyword is back! In this particular example, maybe we still
+want to print "Yum! I like to eat!" too; but we just want to add more context by
+also printing "I like to eat cat food!" as well. Although it is not required in
+Java to use the `super` keyword when overriding methods. We could simply just
+have the method look like this too:
+
+```java
+@Override
+public void eat() {
+    System.out.println("I like to eat cat food!");
+}
+```
+
+Now when we call the `eat()` method on an instance of a `Cat`, it will only
+print "I like to eat cat food!"
+
+There are a couple of rules when overriding methods:
+
+- Only inherited methods can be overridden.
+  - This means no `private` methods can be overridden.
+- The parent class and child class _must_ have the exact same method name,
+  return type, and parameter list in order for the child class to properly
+  override.
+- Methods declared with the non-access modifiers `static` and `final` cannot be
+  overridden.
+- The overriding method does not necessarily need to have the same access
+  modifier as the parent class' method, but the overriding method must not have
+  a more restrictive access modifier.
+
+## The Protected Access Modifier
+
+When we defined the `Animal`, `Cat`, and `Parrot` class, did you notice how they
+were all in the same package, `com.flatiron.animal`?
+
+But what if we move the `Parrot` class out of the `com.flatiron.animal` package
+into a new package called `com.flatiron.bird`? Does this have an effect on
+anything?
+
+Let's look back at our `Animal` class for a minute. Notice that the constructor
+for the `Animal` class does not have an access modifier. This means it is
+using the default access modifier. As a reminder, the classes, variables, and
+methods defined without an access modifier are available to all other classes
+in the same package. But when we move the `Parrot` class out of the package, it
+will no longer have access to the constructor, and therefore, cannot use
+`super()` to initialize the `name` variable.
+
+If we try to compile our program, we'd run into an error like this:
+
+```plaintext
+error: Animal() is not public in Animal; cannot be accessed from outside package
+```
+
+There is one more access modifier we have not gone over yet that could come in
+handy here - it is the **protected access modifier**. Classes, variables,
+methods, and constructors defined with this keyword are accessible by classes
+within the same package or subclasses. Since `Parrot` is considered a subclass
+of `Animal`, we could change the access modifier from the default to
+`protected`!
+
+```java
+package com.flatiron.animal;
+
+public class Animal {
+    private String name;
+
+    // Change constructor's access modifier to protected
+    // Allows subclasses to still make use of this constructor
+    protected Animal() {
+        this.name = "unknown";
+    }
+
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name; }
+
+   public void eat() {
+      System.out.println("Yum! I like to eat!");
+   }
+}
+```
+
+The `protected` keyword is less restrictive than the default access modifier
+but still more restrictive than a `public` access modifier. Therefore, the
+ordering of access modifiers from least restrictive to most restrictive is as
+follows:
+
+- `public`
+- `protected`
+- `default`
+- `private`
