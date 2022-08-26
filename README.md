@@ -29,8 +29,12 @@ public class Animal {
       this.name = "unknown";
    }
 
-   public String getName() { return name; }
-   public void setName(String name) { this.name = name; }
+   public String getName() { 
+       return name; 
+   }
+   public void setName(String name) { 
+       this.name = name; 
+   }
 
    public void eat() {
       System.out.println("Yum! I like to eat!");
@@ -67,8 +71,12 @@ public class Cat extends Animal {
       this.isDeclawed = false;
    }
 
-   public boolean getIsDeclawed() { return isDeclawed; }
-   public void setIsDeclawed(boolean isDeclawed) { this.isDeclawed = isDeclawed; }
+   public boolean getIsDeclawed() { 
+       return isDeclawed; 
+   }
+   public void setIsDeclawed(boolean isDeclawed) { 
+       this.isDeclawed = isDeclawed; 
+   }
 
    public void useLitter() {
       System.out.println("I just used the litter - I'm a clean cat!");
@@ -89,8 +97,12 @@ public class Parrot extends Animal {
       this.inFlight = false;
    }
 
-   public int getNumWings() { return numWings; }
-   public void setNumWings(int numWings) { this.numWings = numWings; }
+   public int getNumWings() { 
+       return numWings; 
+   }
+   public void setNumWings(int numWings) { 
+       this.numWings = numWings; 
+   }
 
    public void startFlying() {
       System.out.println("I'm flying - weeee!!!");
@@ -257,8 +269,12 @@ public class Animal {
         this.name = "unknown";
     }
 
-   public String getName() { return name; }
-   public void setName(String name) { this.name = name; }
+   public String getName() { 
+        return name;
+    }
+   public void setName(String name) { 
+        this.name = name;
+    }
 
    public void eat() {
       System.out.println("Yum! I like to eat!");
